@@ -1,72 +1,80 @@
 require("dotenv").config();
-const conn = require("./db/conn");
+const connection = require("./db/conn");
 
 const Usuario = require("./models/Usuario");
-const Jogo = require("./models/Jogo")
-
+connection.
+sync()
+.then(() => {
+    console.log("Conectando e sincronizando!");
+})
+.catch((err) => {
+    console.log("Ocorreu um erro: " + err);
+});
 
 const express = require("express");
+
 const handlebars = require("express-handlebars");
+
 const app = express();
-
-
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 
-app.use(
-    express.urlencoded({
-        extended: true,
-    })
-)
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
-app.get("/usuarios/novo", (req, res)=>{
+app.get("/usuarios/novo", (req, res) => {
     res.render(`formUsuario`);
 });
 
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
     res.render(`home`);
 });
 
-app.get("/usuarios", (req, res)=>{
-    res.render(`usuarios`);
+app.get("/usuarios", async (req, res) => {
+    const usuarios = Usuario.findAll ({raw: true})
+    res.render(`usuarios`, { usuarios});
 });
 
-app.get("/jogos/novo", (req, res)=>{
-    res.sendFile(`${__dirname}/views/formJogo.html`);
-})
 
-app.post("/usuarios/novo", async (req, res)=>{
+app.post("/usuarios/novo", async (req, res) => {
+    const nickname = req.body.nickname;
+    const nome = req.body.nome;
+    
     const dadosUsuario = {
-        nickname: req.body.nickname,
-        nome: req.body,nome,
-    }
+        nickname,
+        nome,
+    };
+
 
     const usuario = await Usuario.create(dadosUsuario);
-    res.send("Usuario inserido sob o id " + usuario.id);
+    res.send("Usuário inserido sob o id " + usuario.id);
 });
 
-app.post("/jogos/novo", async (req, res)=>{
-    const dadosJogo = {
-        titulo: req.body.titulo,
-        descricao: req.body.descricao,
-        precoBase: req.body.precoBase,
+app.get("/usuarios/:id/atualizar", (req, res) =>{
+    const id = req.params.id;
+    const usuario = Usuario.findByPk(id, {raw: true});
+    
+    res.render("formUsuario", {usuario});
+});
+
+
+app.post("/usuarios/:id/atualizar", async (req, res) =>{
+    const id = req.params.id;
+
+    const dadosUsuario = {
+     nickname: req.body.nickname,
+     nome: req.body.nome,
+    };
+
+   const registroAfetados = await Usuario.update(dadosUsuario, {where: {id: 1}});
+    if(registroAfetados > 0) {
+        res.redirect("/Usuarios");
+    } else {
+        res.send("Erro ao atulizar o usuário");
     }
-
-    const jogo = await Jogo.create(dadosJogo);
-    res.send("Jogo inserido sob o id " + jogo.id);
-})
-
-app.listen(8000, ()=>{
-    console.log("Server rodando!");
 });
 
-conn
-    .sync()
-    .then(() => {
-        console.log("Conectado e sincronizado com o banco de dados com sucesso!");
-    })
-    .catch((err) => {
-        console.log("Ocorreu um erro: " + err);
-    });
+app.listen(8000, () => {
+    console.log("Server rodando na porta 8000");
+});

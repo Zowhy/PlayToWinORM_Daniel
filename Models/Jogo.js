@@ -1,19 +1,20 @@
-const db = require("../db/conn");
-const { DataTypes } = require("sequelize");
+const db = require(".../db/conn");
+const {DataTypes} = require("sequilize");
 
-const Jogo = db.define("Jogo", {
-    titulo: {
+const Jogo = db.define("Jogo",{
+    titulo:{
         type: DataTypes.STRING,
         required: true,
     },
-    descricao: {
-        type: DataTypes.INT,
-        required: true,
+    desc: {
+        type : DataTypes.STRING,
+        required: true
     },
-    precoBase: {
-        type: DataTypes.DOUBLE,
-        required: true,
-    }
-});
+    preçoBase: {
+        type : DataTypes.STRING,
+        required: true
+    },
 
-module.exports = Jogo
+})
+
+module.exports = Jogo;
