@@ -1,7 +1,7 @@
 require("dotenv").config();
 const connection = require("./db/conn");
 
-const Usuario = require("./models/Usuario");
+const Usuario = require("./Models/Usuario");
 connection.
 sync()
 .then(() => {
@@ -75,6 +75,28 @@ app.post("/usuarios/:id/atualizar", async (req, res) =>{
     }
 });
 
+app.post("/usuarios/excluir", async (req,res) => { 
+const id = req.body.id; 
+
+const registroAfetados = await Usuario.destroy( {where: {id: 1}});
+    if(registroAfetados > 0) {
+        res.redirect("/Usuarios");
+    } else {
+        res.send("Erro ao atulizar o usuário");
+    }
+});
+
+
 app.listen(8000, () => {
     console.log("Server rodando na porta 8000");
 });
+
+//conn
+    //.sync()
+    //.authenticate()
+    //.then(() => {
+   //    console.log("conectado e sync ao db");
+    //q})
+   // .catch((err) => {
+    // console.log("erro :( " + err);
+   // });

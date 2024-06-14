@@ -15,7 +15,13 @@
             <td>{{ this.nickname }}</td>
             <td>{{ this.nome }}</td>
             <td>
-                <a href="/usuarios/{{this.id}}/">Atualizar</a>
+                <a href="/usuarios/{{this.id}}/" name="id">Atualizar</a>
+               
+                <form action="/usuarios/excluir" method="post">
+
+                    <input type="hidden" value="{{this.id}}" />
+                    <input type="submit" value="Excluir" />
+                </form>
             </td>
         </tr>
     {{/each}}
