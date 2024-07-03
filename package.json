@@ -1,8 +1,9 @@
+
 {
   "name": "playtowinorm_daniel",
   "version": "1.0.0",
   "description": "",
-  "main": "sla.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
@@ -14,7 +15,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
     "express-handlebars": "^7.1.2",
-    "handlebars": "^4.7.8",
+    "mysql2": "^3.10.1",
     "nodemon": "^3.1.0",
     "pg": "^8.11.3",
     "sequelize": "^6.37.1"

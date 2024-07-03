@@ -1,27 +1,25 @@
-<h1>Jogos Registrados</h1>
+<h1>Cadastre-se</h1>
 
-<a href="/jogos/novo">Cadastrar novo jogo</a>
-
+<a href="/jogos/novo">Registrar Jogos</a>
 <table border="1">
-  <tr>
-    <th>Id</th>
-    <th>Título</th>
-    <th>Preço</th>
-    <th>Descrição</th>
-  </tr>
-  {{#each jogos}}
     <tr>
-      <td>{{this.id}}</td>
-      <td>{{this.titulo}}</td>
-      <td>{{this.preco}}</td>
-      <td>{{this.descricao}}</td>
-      <td>
-        <a href="/jogos/{{this.id}}/update">Update</a>
-        <form action="/jogos/{{this.id}}/delete" method="post">
-          <input type="submit" value="Excluir" />
-        </form>
-        <a href="/jogos/{{this.id}}/conquistas">View Achievements</a>
-      </td>
+        <td>ID</td>
+        <td>Titulo</td>
+        <td>Descrição</td>
+        <th>Ações</th>
     </tr>
-  {{/each}}
+    {{#each jogos}}
+    <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.titulo}}</td>
+        <td>{{this.descricao}}</td>
+        <td>
+            <form action="/jogos/excluir" method="post">
+                <input name="id" type="hidden" value="{{this.id}}" />
+                <input type="submit" value="Excluir">
+            </form>
+            <a href="/jogos/{{this.id}}/conquistas">Ver conquistas</a>
+        </td>
+    </tr>
+    {{/each}}
 </table>
