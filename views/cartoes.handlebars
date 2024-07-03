@@ -1,0 +1,16 @@
+<h1>Cartões Registrados</h1>
+
+<a href="/usuarios/{{usuario.id}}/novoCartao">Cadastrar cartão</a>
+
+<table border="1">
+  <tr>
+    <th>Número</th>
+    <th>Nome</th>
+  </tr>
+  {{#each cartoes}}
+    <tr>
+     <td>{{this.nome}}</td>
+      <td>{{this.numero}}</td>
+    </tr>
+  {{/each}}
+</table>
